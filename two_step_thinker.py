@@ -17,7 +17,7 @@ load_dotenv()
 # для визуализации "мыслей" и шагов в LangSmith:
 # ==========================================
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_API_KEY"] = "ваш-ключ-от-langsmith"
+os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY") # Берем ключ из .env файла
 os.environ["LANGCHAIN_PROJECT"] = "Two-Step-Thinker-Project"
 
 
@@ -31,8 +31,8 @@ def run_two_step_thinker(topic: str):
     
     # Инициализируем LLM (можно использовать разные модели или разную температуру)
     # Для фактов (объяснение) ставим температуру пониже, для креатива (вопросы) - повыше.
-    llm_explainer = ChatOpenAI(model="gpt-4o-mini", temperature=0.3)
-    llm_questioner = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
+    llm_explainer = ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp", temperature=0.3)
+    llm_questioner = ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp", temperature=0.7)
     
     # ---------------------------------------------------------
     # ШАГ 1: Объяснитель (The Explainer)
