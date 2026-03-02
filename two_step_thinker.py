@@ -101,5 +101,18 @@ def run_two_step_thinker(topic: str):
         print("\nПОДСКАЗКА: Если ключ верный, попробуйте создать новый в кабинете SberDevices.")
 
 if __name__ == "__main__":
-    # Тестируем концепцию
-    run_two_step_thinker("Теория относительности")
+    print("--- ДОБРО ПОЖАЛОВАТЬ В «ДВУХШАГОВОГО МЫСЛИТЕЛЯ» ---")
+    print("(используется GigaChat от Сбера)\n")
+    
+    while True:
+        user_topic = input("Введите тему для изучения (или 'exit' для выхода): ").strip()
+        
+        if user_topic.lower() in ['exit', 'quit', 'выход']:
+            print("До свидания!")
+            break
+            
+        if not user_topic:
+            continue
+            
+        run_two_step_thinker(user_topic)
+        print("\n" + "="*60 + "\n")
