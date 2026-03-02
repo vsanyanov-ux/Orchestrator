@@ -5,7 +5,6 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from langchain_gigachat.chat_models import GigaChat
 
-
 # Загружаем переменные окружения
 load_dotenv()
 
@@ -25,15 +24,27 @@ def run_two_step_thinker(topic: str):
     """
     print(f"--- Запускаем «Двухшагового Мыслителя» (GigaChat) для темы: '{topic}' ---\n")
     
+    # ПРОВЕРКА КЛЮЧЕЙ
+    credentials = os.getenv("GIGACHAT_CREDENTIALS")
+    if not credentials:
+        print("❌ ОШИБКА: Переменная GIGACHAT_CREDENTIALS не найдена в .env или не загружена!")
+        return
+
+    # Печатаем первые 5 символов для проверки (безопасно)
+    print(f"ℹ️ Ключ загружен (начинается на: {credentials[:5]}...)")
+    
     # Инициализируем GigaChat
-    # Убедитесь, что в .env файле есть переменная GIGACHAT_CREDENTIALS
-    # verify_ssl_certs=False помогает избежать ошибок, если не установлены сертификаты Минцифры
+    # Мы явно передаем credentials и scope
     llm_explainer = GigaChat(
+        credentials=credentials,
+        scope="GIGACHAT_API_PERS", # Для физлиц по умолчанию
         model="GigaChat", 
         temperature=0.3, 
         verify_ssl_certs=False
     )
     llm_questioner = GigaChat(
+        credentials=credentials,
+        scope="GIGACHAT_API_PERS",
         model="GigaChat", 
         temperature=0.7, 
         verify_ssl_certs=False
@@ -87,7 +98,8 @@ def run_two_step_thinker(topic: str):
         
     except Exception as e:
         print(f"❌ Ошибка вызова GigaChat: {e}")
-        print("\nПОДСКАЗКА: Проверьте GIGACHAT_CREDENTIALS в .env файле.")
+        print("\nПОДСКАЗКА: Если ключ верный, попробуйте создать новый в кабинете SberDevices.")
 
 if __name__ == "__main__":
+    # Тестируем концепцию
     run_two_step_thinker("Теория относительности")
