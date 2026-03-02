@@ -31,8 +31,8 @@ def run_two_step_thinker(topic: str):
     
     # Инициализируем LLM (можно использовать разные модели или разную температуру)
     # Для фактов (объяснение) ставим температуру пониже, для креатива (вопросы) - повыше.
-    llm_explainer = ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp", temperature=0.3)
-    llm_questioner = ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp", temperature=0.7)
+    llm_explainer = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.3)
+    llm_questioner = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.7)
     
     # ---------------------------------------------------------
     # ШАГ 1: Объяснитель (The Explainer)
